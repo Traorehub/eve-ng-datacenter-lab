@@ -1,0 +1,8 @@
+.cursor/
+.vscode/
+Thumbs.db
+desktop.ini
+docs/media/_*.jpg
+docs/media/_*.png
+*.log
+__pycache__/
