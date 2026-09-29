@@ -44,7 +44,7 @@ Le LAN n'a pas de route par défaut vers le WAN du lab : un poste VLAN 40 n'est 
 | HAProxy | `10.66.10.11:8080` | Round robin `10.66.50.80` / `.81` |
 | `vs_web` | `10.66.10.100:80` | LTM + APM + ASM Transparent |
 | `vs_dvwa` | `10.66.10.101:80` | ASM Blocking devant DVWA |
-| Origine DVWA | `10.66.50.82` | Porte sans WAF, pour le couple de preuves |
+| Origine DVWA | `10.66.50.82` | Porte sans WAF, pour le couple de démonstrations |
 
 Auto Map : les backends n'ont pas de route vers `10.66.10.0/24`. Sans SNAT vers la Self IP, le monitor LTM reste Offline.
 

@@ -11,7 +11,7 @@
 
 **Projet de laboratoire** : concevoir et faire tourner, dans EVE-NG, une architecture datacenter complète (cascade de NGFW, doubles DMZ, commutation hiérarchique, publication HTTP, WAF, annuaire, accès distant).
 
-Le dépôt documente la **démarche**, les **choix**, les **extraits de configuration** et les **preuves**. Il ne contient ni images QEMU constructeur, ni secrets, ni adressage d'un site réel.
+Le dépôt documente la **démarche**, les **choix**, les **extraits de configuration** et la **démonstration**.
 
 ## Démo
 
@@ -21,7 +21,7 @@ Le GIF tourne tout seul dans le README (aperçu x2). **Cliquer l'image** ouvre l
 
 *Toile EVE-NG : frontal PAN-OS, dorsal SFOS, DMZ publique (BIG-IP / pfSense), zone IPsec Fortinet. [MP4](docs/media/demo.mp4)*
 
-| Preuve | Aperçu GIF | Détail |
+| Démonstration | Aperçu GIF | Détail |
 |--------|------------|--------|
 | WAF Blocking (SQLi / XSS, VIP DVWA) | [![WAF](docs/media/demo-waf.gif)](docs/media/demo-waf.gif) | ASM Event Logs, Support ID |
 | Télétravail IPsec (strongSwan, Mode Config) | [![VPN](docs/media/demo-vpn.gif)](docs/media/demo-vpn.gif) | Tunnel ESTABLISHED, VIP `10.66.80.x` |
@@ -30,7 +30,7 @@ Le GIF tourne tout seul dans le README (aperçu x2). **Cliquer l'image** ouvre l
 
 Un schéma mural (un pare-feu, une DMZ, un VIP) ne dit rien sur l'ordre des maillons ni sur ce qui casse quand un NAT, une licence ou un monitor LTM est faux.
 
-L'objectif était de **poser** la chaîne, puis de **prouver** deux choses : un flux légitime passe, une payload d'injection ne passe plus.
+L'objectif était de **poser** la chaîne, puis de **démontrer** deux choses : un flux légitime passe, une payload d'injection ne passe plus.
 
 | Couche | Rôle | Dans ce lab |
 |--------|------|-------------|
@@ -55,7 +55,7 @@ Même logique que pour un lab IoT : une couche n'est ajoutée que lorsque la pr�
 | **6. WAF** | Payload bloquée | ASM Transparent puis Blocking (REST `apply-policy`) |
 | **7. VPN** | Client WAN, IP automatique | strongSwan, Mode Config |
 
-Preuve retenue : **couple de chemins**, pas une capture isolée (origine DVWA `10.66.50.82` / VIP `10.66.10.101`).
+Démonstration retenue : **couple de chemins**, pas une capture isolée (origine DVWA `10.66.50.82` / VIP `10.66.10.101`).
 
 ## Architecture (vue d'ensemble)
 
@@ -132,8 +132,26 @@ Extraits (PSK et mots de passe omis) : [docs/CONFIGS.md](docs/CONFIGS.md).
 | Élément | Remarque |
 |---------|----------|
 | EVE-NG Community | Toile QEMU, lab au format UNL |
-| Images constructeur | PAN-OS, SFOS, FortiOS, TMOS, IOSv-L2 : **chez l'éditeur**, pas dans ce dépôt |
 | RAM hôte | Un BIG-IP VE + 3 NGFW tiennent mal sous 32 Go |
+
+### Images QEMU (sources)
+
+EVE-NG Community n'embarque pas PAN-OS, SFOS, FortiOS ni TMOS. Les disques ont été obtenus de deux façons : le catalogue [ishare2](https://github.com/ishare2-org/ishare2-cli) (`ishare2 pull qemu <ID>`), et, hors catalogue, le site de l'éditeur.
+
+| Source | Image | Rôle |
+|--------|-------|------|
+| ishare2 ID **283** | PAN-OS 11.2.5 | NGFW frontal |
+| ishare2 ID **180** | SFOS 21.0.0 | NGFW dorsal |
+| ishare2 ID **155** | FortiGate 7.6.2 | Pair IPsec |
+| ishare2 ID **11** | Alpine 3.20.3 | Clients VPN / voix (`linux-` obligatoire) |
+| ishare2 ID **302** | Proxmox VE 6.11 | Cluster compute (`linux-` obligatoire) |
+| ishare2 ID **448** | Windows Server 2019 | Annuaire `pfa.local` |
+| ishare2 (nom) | Ubuntu 21.04 desktop | Poste GUI LAN |
+| Site officiel Zabbix | Appliance 7.4 | Supervision (absent du catalogue) |
+| Licence F5 (VE 15.1.9) | BIG-IP TMOS | LTM / APM / ASM ; un pull 17.5 a été écarté |
+| Déjà sur l'hôte | IOSv-L2 | Commutation ; pfSense CE était sur le canevas |
+
+Après dépôt sous `/opt/unetlab/addons/qemu/` : `unl_wrapper -a fixpermissions`. Les qcow2 ne sont pas dans ce dépôt.
 
 ### Plan d'adressage (laboratoire uniquement)
 
@@ -160,7 +178,7 @@ Extraits (PSK et mots de passe omis) : [docs/CONFIGS.md](docs/CONFIGS.md).
 |---------|---------|
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Agencement des composants, VLAN, flux |
 | [docs/CONFIGS.md](docs/CONFIGS.md) | Extraits PAN-OS, LTM, HAProxy, strongSwan |
-| [docs/METHOD.md](docs/METHOD.md) | Ordre de construction et preuves |
+| [docs/METHOD.md](docs/METHOD.md) | Ordre de construction et démonstrations |
 
 ## Licence
 

@@ -6,14 +6,14 @@
 2. Commutateurs : VLAN, trunks, EtherChannel, STP. Ping L2 avant tout NAT.
 3. SFOS : VLAN d'accès, ACL, passerelles. Un VPC par VLAN doit ping sa passerelle.
 4. PAN-OS : zones, NAT, une règle par flux Nord. Commit.
-5. HAProxy : frontend / backend, preuve `curl` alterné.
+5. HAProxy : frontend / backend, démonstration `curl` alterné.
 6. BIG-IP : Self IP, route, pool, Auto Map, `vs_web`.
 7. AD : forêt `pfa.local`, DNS intégré, compte de test.
 8. APM : AAA AD, policy, cookie non Secure (VIP HTTP).
 9. ASM : policy REST, Transparent sur `vs_web`, Blocking + `apply-policy` sur `vs_dvwa`.
-10. strongSwan : X-Auth, Mode Config, SNAT VPN-RA, preuve `ping -I 10.66.80.x`.
+10. strongSwan : X-Auth, Mode Config, SNAT VPN-RA, démonstration `ping -I 10.66.80.x`.
 
-## Preuves minimales
+## Démonstrations minimales
 
 | Test | Attendu |
 |------|---------|
